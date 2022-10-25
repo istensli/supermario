@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supermario</title>
+
+    <style>
+
+        #game{
+            display: flex;
+            flex-direction: column;
+        }
+        #select-player-div{
+            height: 300px;
+            width: 300px;
+            display: flex;
+            flex-direction: row;
+            
+        }
+
+        #match-div{
+            height: 200px;
+            width: 600px;
+            display: flex;
+            flex-direction: row;
+
+        }
+        #player-pic{
+            max-width: 300px;
+            max-height: 300px;
+            min-width: 300px;
+            min-height: 300px;
+        }
+
+        #player-fight-pic, #boss-fight-pic{
+            height: 300px;
+            width: 300px;
+
+        }
+        #attack-buttons{
+            height: 20px;
+            width: 300px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="game">
+        <div id="select-player-div">
+            <button onclick="previousCharacter()">Prev</button>
+            <img onclick="selectCharacter()" id="player-pic" src="mario.png" alt="Player">
+
+            <button onclick="nextCharacter()">Next</button>
+        </div>
+
+        <br />
+        <div id="stats-name-div"></div>
+        <div id="attack-buttons">
+            <button onclick="playerAttack()" id="player-attack">Player-attack</button>
+            <button onclick="bossAttack()" id="boss-attack">Boss-attack</button>
+        </div>
+        <div id="match-div">
+            
+            <div id="playerDiv"></div>
+
+            <div id="bossDiv"></div>
+
+            
+        </div>
+        
+
+    </div>
+    
+    
+
+    <script>
+        
+        let playerDiv = document.getElementById('playerDiv');
+        let playerPic = document.getElementById('player-pic');
+
+        let statsNameDiv = document.getElementById('stats-name-div');
+
+        let bossDiv = document.getElementById('bossDiv');
+
+        let boss = [{name: "bowser", hp: 300}];
+        let playerArr = [{name: 'mario', hp: 200}, {name: 'luigi', hp: 140}, {name: 'peach', hp: 100}, {name: 'yoshi', hp: 80}];
+        let currentPlayer = 0;
+
+        let playerHp = 0;
+        let bossHp = 0;
+
+        let playerName = "";
+        let bossName = "";
+
+        function selectCharacter(){
+            playerName = playerArr[currentPlayer].name;
+            playerHp = playerArr[currentPlayer].hp;
+
+            bossName = boss[0].name;
+            bossHp = boss[0].hp;
+
+            playerDiv.innerHTML = /*HTML*/`<img id="player-fight-pic" src="${playerName}.png" alt="Player">`;
+            bossDiv.innerHTML = /*HTML*/`<img id="boss-fight-pic" src="${bossName}.png" alt="Boss">`;
+
+
+            showStatsNameDiv();
+            
+
+
+        }
+
+        function showStatsNameDiv(){
+            statsNameDiv.innerHTML = /*HTML*/`<p>Player Name: ${playerName.toUpperCase()} Player HP:${playerHp}
+                &emsp; &emsp; &emsp; Boss Name: ${bossName.toUpperCase()} Boss HP:${bossHp}</p>`;
+
+
+        }
+
+        function nextCharacter(){
+            currentPlayer ++;
+            if(currentPlayer > 3){
+                currentPlayer = 0;
+            }
+            showPlayer();
+        }
+
+        function previousCharacter(){
+            currentPlayer --;
+            if(currentPlayer < 0){
+                currentPlayer = 3;
+            }
+            showPlayer();
+
+        }
+
+        function showPlayer(){
+            playerPic.src = `${playerArr[currentPlayer].name}.png`;
+
+
+        }
+
+        function playerAttack(){
+            //bare en test
+            bossHp -= getRandomAttackPoints();
+            if(bossHp < 0){
+                bossHp = 0;
+            }
+            showStatsNameDiv();
+            
+        }
+        function bossAttack(){
+            playerHp -= getRandomAttackPoints();
+            if(playerHp < 0){
+                playerHp = 0;
+            }
+            showStatsNameDiv();
+
+        }
+
+        function showFight(){
+
+        }
+
+        function startFight(){
+            //trengs muligens ikke??
+        }
+
+        function getRandomAttackPoints(){
+            let randomNumber = Math.floor((Math.random() * 30) + 20);
+            //console.log(randomNumber)
+            return randomNumber;
+            
+        }
+
+
+    </script>
+
+
+
+
+    
+</body>
+</html>
